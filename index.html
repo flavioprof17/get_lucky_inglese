@@ -1,0 +1,1104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Get Lucky — English Missions</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bangers&family=Comic+Neue:wght@700&family=Space+Grotesk:wght@400;500;600;700&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0D0B08;
+    --panel:#17130E;
+    --panel-2:#201A12;
+    --line:#332C20;
+    --text:#F5F0E6;
+    --muted:#A79C87;
+    --gold:#D4AF37;
+    --gold-dim:#8A6F27;
+    --cyan:#5EEAD4;
+    --good:#5EEAD4;
+    --bad:#E0654F;
+    --display:"Space Grotesk","Avenir Next","Segoe UI",sans-serif;
+    --body:"Work Sans",system-ui,sans-serif;
+    --r:14px;
+  }
+  @media (prefers-color-scheme: light){
+    :root:not([data-theme="dark"]){
+      --bg:#F6F2E8; --panel:#FFFFFF; --panel-2:#EFE8D8; --line:#DDD2B8;
+      --text:#1C1710; --muted:#6B6252; --good:#1F9E8F; --cyan:#1F9E8F;
+    }
+  }
+  :root[data-theme="light"]{
+    --bg:#F6F2E8; --panel:#FFFFFF; --panel-2:#EFE8D8; --line:#DDD2B8;
+    --text:#1C1710; --muted:#6B6252; --good:#1F9E8F; --cyan:#1F9E8F;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--bg); color:var(--text); font-family:var(--body);
+    line-height:1.5; min-height:100vh;
+    background-image:
+      radial-gradient(circle at 85% -10%, rgba(212,175,55,.10), transparent 45%),
+      repeating-linear-gradient(115deg, rgba(212,175,55,.025) 0px, rgba(212,175,55,.025) 2px, transparent 2px, transparent 26px);
+  }
+  .wrap{max-width:820px;margin:0 auto;padding:26px 18px 70px;}
+
+  /* HERO */
+  .hero{display:flex;align-items:center;gap:20px;margin-bottom:26px;}
+  .disc{
+    width:66px;height:66px;border-radius:50%;flex:none;
+    background:
+      radial-gradient(circle at 50% 50%, var(--gold) 0 7%, transparent 8%),
+      radial-gradient(circle at 50% 50%, var(--bg) 0 11%, transparent 12%),
+      repeating-radial-gradient(circle at 50% 50%, var(--gold-dim) 0 1px, transparent 1px 5px);
+    border:1px solid var(--line);
+    animation:spin 9s linear infinite;
+  }
+  @keyframes spin{to{transform:rotate(360deg)}}
+  @media (prefers-reduced-motion:reduce){.disc{animation:none}}
+  h1{font-family:var(--display);font-size:clamp(28px,5.4vw,40px);margin:0 0 4px;letter-spacing:-.01em;}
+  .hero p{margin:0;color:var(--muted);font-size:15px;max-width:44ch;}
+
+  /* SCOREBAR */
+  .scorebar{
+    display:flex;align-items:center;justify-content:space-between;gap:14px;
+    background:var(--panel);border:1px solid var(--line);border-radius:var(--r);
+    padding:12px 18px;margin-bottom:22px;flex-wrap:wrap;
+  }
+  .stars{font-size:19px;letter-spacing:3px;color:var(--gold);}
+  .stars .off{color:var(--line);}
+  .score-label{font-family:var(--display);font-size:14px;color:var(--muted);}
+
+  /* MISSION GRID */
+  .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;}
+  @media (max-width:560px){.grid{grid-template-columns:1fr;}}
+  .card{
+    background:var(--panel);border:1px solid var(--line);border-radius:var(--r);
+    padding:18px;text-align:left;cursor:pointer;color:var(--text);font-family:var(--body);
+    display:flex;gap:14px;align-items:flex-start;transition:border-color .15s,transform .15s;
+  }
+  .card:hover{border-color:var(--gold-dim);transform:translateY(-2px);}
+  .card:focus-visible{outline:2px solid var(--cyan);outline-offset:2px;}
+  .card .emoji{font-size:26px;flex:none;line-height:1;}
+  .card h3{font-family:var(--display);font-size:17px;margin:0 0 3px;}
+  .card p{margin:0;font-size:13px;color:var(--muted);}
+  .card .done{color:var(--good);font-size:12px;font-weight:700;margin-top:6px;display:block;}
+
+  /* SCREEN */
+  .screen{
+    background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:24px;
+  }
+  .screen-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:6px;}
+  .screen h2{font-family:var(--display);font-size:22px;margin:0;}
+  .task{color:var(--muted);font-size:14px;margin:0 0 20px;}
+  .back{
+    background:transparent;border:1px solid var(--line);color:var(--muted);
+    border-radius:9px;padding:7px 13px;font-size:13px;cursor:pointer;font-family:var(--body);flex:none;
+  }
+  .back:hover{color:var(--text);border-color:var(--gold-dim);}
+
+  .progress{height:5px;background:var(--panel-2);border-radius:3px;overflow:hidden;margin-bottom:20px;}
+  .progress span{display:block;height:100%;background:linear-gradient(90deg,var(--gold-dim),var(--gold));width:0;transition:width .3s;}
+
+  /* MATCH */
+  .board{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+  @media (max-width:560px){.board{grid-template-columns:1fr 1fr;gap:10px;}}
+  .col{display:flex;flex-direction:column;gap:8px;}
+  .chip{
+    background:var(--panel-2);border:1px solid var(--line);border-radius:10px;
+    padding:11px 12px;cursor:pointer;font-size:14.5px;text-align:center;user-select:none;
+    transition:border-color .12s;
+  }
+  .chip:hover{border-color:var(--cyan);}
+  .chip.sel{border-color:var(--gold);background:rgba(212,175,55,.12);}
+  .chip.ok{border-color:var(--good);color:var(--good);opacity:.5;cursor:default;}
+  .chip.no{border-color:var(--bad);animation:shake .3s;}
+  @keyframes shake{25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+
+  /* GAP */
+  .bank{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:22px;}
+  .bank span{
+    background:var(--panel-2);border:1px dashed var(--line);border-radius:7px;
+    padding:5px 11px;font-size:13.5px;color:var(--muted);
+  }
+  .q{font-size:19px;margin:0 0 18px;line-height:1.7;}
+  .q input{
+    background:var(--panel-2);border:none;border-bottom:2px solid var(--gold);color:var(--text);
+    font-family:var(--body);font-size:18px;padding:3px 8px;width:140px;text-align:center;border-radius:5px 5px 0 0;
+  }
+  .q input:focus{outline:none;border-bottom-color:var(--cyan);}
+
+  /* BUILDER */
+  .slot{
+    min-height:52px;background:var(--panel-2);border:1px dashed var(--line);border-radius:10px;
+    padding:9px;display:flex;flex-wrap:wrap;gap:7px;align-items:center;margin-bottom:14px;
+  }
+  .pool{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:6px;}
+  .tok{
+    background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:7px 13px;
+    font-size:15px;cursor:pointer;user-select:none;
+  }
+  .tok:hover{border-color:var(--gold-dim);}
+  .prompt-it{color:var(--gold);font-family:var(--display);font-size:15px;margin:0 0 12px;}
+
+  /* QUIZ */
+  .opts{display:flex;flex-direction:column;gap:9px;}
+  .opt{
+    background:var(--panel-2);border:1px solid var(--line);border-radius:10px;padding:13px 16px;
+    cursor:pointer;font-size:15px;text-align:left;color:var(--text);font-family:var(--body);
+  }
+  .opt:hover{border-color:var(--cyan);}
+  .opt.ok{border-color:var(--good);color:var(--good);}
+  .opt.no{border-color:var(--bad);color:var(--bad);}
+
+  /* SHARED */
+  .actions{display:flex;align-items:center;gap:14px;margin-top:22px;flex-wrap:wrap;}
+  .btn{
+    background:var(--gold);color:#17130E;border:none;border-radius:10px;padding:11px 22px;
+    font-family:var(--display);font-size:15px;font-weight:600;cursor:pointer;
+  }
+  .btn:hover{filter:brightness(1.08);}
+  .btn.ghost{background:transparent;border:1px solid var(--line);color:var(--muted);}
+  .btn.ghost:hover{color:var(--text);border-color:var(--gold-dim);}
+  .fb{font-size:14.5px;font-weight:600;}
+  .fb.win{color:var(--good);}
+  .fb.lose{color:var(--bad);}
+
+  .result{text-align:center;padding:14px 0;}
+  .result .big{font-family:var(--display);font-size:44px;color:var(--gold);margin:6px 0;}
+  .result p{color:var(--muted);margin:0 0 18px;}
+
+
+  /* COMIC STUDIO */
+  .card.wide{grid-column:1/-1;}
+  .paper{
+    background:#EFE7D6;border:3px solid #17130E;border-radius:4px;padding:16px;
+    box-shadow:5px 5px 0 rgba(0,0,0,.35);
+  }
+  .comic-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;}
+  @media (max-width:540px){.comic-grid{grid-template-columns:1fr;}}
+  .pnl{
+    position:relative;aspect-ratio:4/3;border:3px solid #17130E;background:#fff;
+    overflow:hidden;box-shadow:3px 3px 0 #17130E;
+  }
+  .pnl.pick{cursor:pointer;}
+  .pnl.pick:hover{box-shadow:3px 3px 0 #E0654F;}
+  .pnl.sel{outline:4px solid #E0654F;outline-offset:2px;}
+  .pnl svg{position:absolute;inset:0;width:100%;height:100%;display:block;}
+  .pnum{
+    position:absolute;top:5px;right:5px;width:24px;height:24px;border-radius:50%;
+    background:#17130E;color:#F5E06B;font-family:"Bangers",cursive;font-size:15px;
+    display:flex;align-items:center;justify-content:center;z-index:6;border:2px solid #EFE7D6;
+  }
+  .bal{
+    position:absolute;background:#fff;border:2.5px solid #17130E;border-radius:15px;
+    padding:6px 9px;font-family:"Comic Neue",cursive;font-weight:700;
+    font-size:clamp(9.5px,1.45vw,13px);line-height:1.3;color:#17130E;
+    text-transform:uppercase;z-index:4;
+  }
+  .bal::before{content:"";position:absolute;bottom:-15px;left:18px;width:0;height:0;
+    border:8px solid transparent;border-top-color:#17130E;}
+  .bal::after{content:"";position:absolute;bottom:-10px;left:20px;width:0;height:0;
+    border:6px solid transparent;border-top-color:#fff;}
+  .bal.think{border-radius:50%/42%;padding:9px 12px;}
+  .bal.think::before{bottom:-13px;left:20px;width:11px;height:11px;border:2.5px solid #17130E;
+    border-radius:50%;background:#fff;}
+  .bal.think::after{bottom:-23px;left:14px;width:7px;height:7px;border:2.5px solid #17130E;
+    border-radius:50%;background:#fff;}
+  .cap{
+    position:absolute;background:#F5E06B;border:2.5px solid #17130E;padding:5px 8px;
+    font-family:"Comic Neue",cursive;font-weight:700;text-transform:uppercase;
+    font-size:clamp(9px,1.3vw,12px);color:#17130E;z-index:4;
+  }
+  .sfx{
+    position:absolute;font-family:"Bangers",cursive;font-size:clamp(22px,4.4vw,38px);
+    color:#F5E06B;-webkit-text-stroke:2.5px #17130E;letter-spacing:1px;z-index:5;
+    text-shadow:4px 4px 0 #E0654F;
+  }
+  input.bgap{
+    font-family:"Comic Neue",cursive;font-weight:700;font-size:inherit;text-transform:uppercase;
+    background:#FFF6CE;border:none;border-bottom:2.5px solid #E0654F;border-radius:4px 4px 0 0;
+    width:6.4em;max-width:62%;text-align:center;color:#17130E;padding:1px 3px;vertical-align:baseline;
+  }
+  input.bgap:focus{outline:none;background:#F5E06B;border-bottom-color:#17130E;
+    box-shadow:0 0 0 2px #E0654F;}
+  input.bgap.ok{color:#136B54;border-bottom-color:#136B54;background:#D4F2E6;}
+  input.bgap.no{color:#B0311F;border-bottom-color:#B0311F;background:#FADDD6;}
+  .bgap.static{display:inline-block;min-width:52px;text-align:center;letter-spacing:1px;opacity:.65;}
+  .bankhint{
+    font-family:"Comic Neue",cursive;font-weight:700;text-transform:uppercase;font-size:12px;
+    color:#5A4A32;text-align:center;margin:20px 0 0;
+  }
+  .wordbank{display:flex;flex-wrap:wrap;gap:9px;justify-content:center;margin-top:18px;}
+  .wchip{
+    font-family:"Comic Neue",cursive;font-weight:700;text-transform:uppercase;font-size:14px;
+    background:#fff;border:2.5px solid #17130E;border-radius:6px;padding:7px 14px;
+    box-shadow:2px 2px 0 #17130E;cursor:pointer;color:#17130E;
+  }
+  .wchip.sel{background:#F5E06B;transform:translate(1px,1px);box-shadow:1px 1px 0 #17130E;}
+  .wchip.used{opacity:.3;cursor:default;box-shadow:none;}
+  .comic-step{
+    font-family:"Bangers",cursive;font-size:20px;letter-spacing:1px;color:#17130E;
+    background:#F5E06B;border:2.5px solid #17130E;display:inline-block;padding:2px 12px;
+    margin-bottom:14px;transform:rotate(-1.2deg);
+  }
+
+  footer{text-align:center;color:var(--muted);font-size:12px;margin-top:30px;}
+  .hidden{display:none;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="hero">
+    <div class="disc" aria-hidden="true"></div>
+    <div>
+      <h1>Get Lucky</h1>
+      <p>Four English missions built around one song. Music, robots and a bit of luck.</p>
+    </div>
+  </header>
+
+  <div class="scorebar">
+    <span class="score-label">Missions completed</span>
+    <span class="stars" id="stars"></span>
+  </div>
+
+  <div id="home">
+    <div class="grid" id="grid"></div>
+  </div>
+
+  <div id="screen-wrap" class="hidden"></div>
+
+  <footer>English practice built around one song. &mdash; Prof. Flavio</footer>
+</div>
+
+<script>
+(function(){
+"use strict";
+
+/* ---------------- DATA ---------------- */
+
+var VOCAB = [
+  ["lucky","fortunato"],
+  ["night","notte"],
+  ["dance","ballare"],
+  ["star","stella"],
+  ["music","musica"],
+  ["robot","robot"],
+  ["celebrate","festeggiare"],
+  ["friend","amico"]
+];
+
+var GAPS = [
+  { s:"Tonight we ___ all night long.", a:"dance", it:"Stasera balliamo tutta la notte." },
+  { s:"I feel very ___ today!", a:"lucky", it:"Oggi mi sento molto fortunato!" },
+  { s:"My favourite ___ is electronic.", a:"music", it:"La mia musica preferita è elettronica." },
+  { s:"A ___ wears a shiny helmet.", a:"robot", it:"Un robot indossa un casco luccicante." },
+  { s:"Look at that bright ___ in the sky.", a:"star", it:"Guarda quella stella luminosa nel cielo." },
+  { s:"We ___ my birthday with a big cake.", a:"celebrate", it:"Festeggiamo il mio compleanno con una grande torta." },
+  { s:"The party starts at ___ .", a:"night", it:"La festa comincia di notte." },
+  { s:"He is my best ___ .", a:"friend", it:"Lui è il mio migliore amico." }
+];
+
+var BUILD = [
+  { it:"Stasera balliamo tutta la notte.", w:["Tonight","we","dance","all","night"] },
+  { it:"Oggi mi sento fortunato.", w:["I","feel","lucky","today"] },
+  { it:"La musica è molto forte.", w:["The","music","is","very","loud"] },
+  { it:"I robot indossano caschi d'oro.", w:["The","robots","wear","golden","helmets"] },
+  { it:"Festeggiamo con i nostri amici.", w:["We","celebrate","with","our","friends"] },
+  { it:"Le stelle brillano nel cielo.", w:["The","stars","shine","in","the","sky"] }
+];
+
+var QUIZ = [
+  { q:"Where are Daft Punk from?", o:["France","Italy","Japan"], c:0 },
+  { q:"How many people are in Daft Punk?", o:["One","Two","Five"], c:1 },
+  { q:"What do they wear on their heads?", o:["Hats","Crowns","Helmets"], c:2 },
+  { q:"What kind of music do they play?", o:["Electronic","Opera","Country"], c:0 },
+  { q:"In which year did \u201cGet Lucky\u201d come out?", o:["1993","2013","2023"], c:1 },
+  { q:"Which singer sings on \u201cGet Lucky\u201d?", o:["Ed Sheeran","Pharrell Williams","Elton John"], c:1 }
+];
+
+
+var COMIC = [
+  { art:"room",
+    cap:{ t:"It is Friday ___.", gap:"night", pos:"left:4%;top:5%;max-width:46%" },
+    bals:[ { t:"Nothing to do\u2026", kind:"think", pos:"left:50%;top:10%;max-width:44%" } ] },
+  { art:"beep",
+    sfx:{ t:"BEEP!", pos:"left:5%;top:56%;transform:rotate(-11deg)" },
+    bals:[ { t:"A message from my ___!", gap:"friend", pos:"left:36%;top:6%;max-width:58%" } ] },
+  { art:"door",
+    bals:[ { t:"There is ___ tonight!", gap:"music", pos:"left:4%;top:6%;max-width:60%" } ] },
+  { art:"stars",
+    bals:[ { t:"Look at that ___!", kind:"say", pos:"left:34%;top:5%;max-width:58%" , gap:"star" } ] },
+  { art:"floor",
+    sfx:{ t:"BOOM!", pos:"right:4%;bottom:6%;transform:rotate(8deg)" },
+    bals:[ { t:"We ___ all night!", gap:"dance", pos:"left:6%;top:5%;max-width:60%" } ] },
+  { art:"sun",
+    cap:{ t:"The end.", pos:"right:4%;bottom:5%" },
+    bals:[ { t:"Today I feel ___!", gap:"lucky", pos:"left:6%;top:6%;max-width:56%" } ] }
+];
+
+var COMIC_WORDS = ["night","friend","music","star","dance","lucky"];
+
+var MISSIONS = [
+  { id:"match", emoji:"\u{1F3AF}", title:"Word Match", sub:"Find the pairs" },
+  { id:"gap",   emoji:"\u270F\uFE0F", title:"Fill the Gap", sub:"Write the missing word" },
+  { id:"build", emoji:"\u{1F9F1}", title:"Build a Sentence", sub:"Put the words in order" },
+  { id:"quiz",  emoji:"\u{1F916}", title:"Robot Quiz", sub:"What do you know?" },
+  { id:"comic", emoji:"\u{1F4A5}", title:"Comic Studio", sub:"Rebuild the story, then fill the balloons", wide:true }
+];
+
+/* ---------------- STATE ---------------- */
+
+var done = {};
+try{
+  var raw = localStorage.getItem("getlucky_done");
+  if(raw) done = JSON.parse(raw) || {};
+}catch(e){ done = {}; }
+
+function save(){
+  try{ localStorage.setItem("getlucky_done", JSON.stringify(done)); }catch(e){}
+}
+
+var home = document.getElementById("home");
+var screenWrap = document.getElementById("screen-wrap");
+var gridEl = document.getElementById("grid");
+var starsEl = document.getElementById("stars");
+
+function drawStars(){
+  var out = "";
+  MISSIONS.forEach(function(m){
+    out += done[m.id] ? "\u2605" : "<span class='off'>\u2606</span>";
+  });
+  starsEl.innerHTML = out;
+}
+
+function drawHome(){
+  gridEl.innerHTML = "";
+  MISSIONS.forEach(function(m){
+    var b = document.createElement("button");
+    b.className = "card" + (m.wide ? " wide" : ""); b.type = "button";
+    b.innerHTML =
+      "<span class='emoji'>" + m.emoji + "</span>" +
+      "<span><h3>" + m.title + "</h3><p>" + m.sub + "</p>" +
+      (done[m.id] ? "<span class='done'>\u2713 Completed</span>" : "") + "</span>";
+    b.addEventListener("click", function(){ open(m.id); });
+    gridEl.appendChild(b);
+  });
+  drawStars();
+}
+
+function open(id){
+  home.classList.add("hidden");
+  screenWrap.classList.remove("hidden");
+  screenWrap.innerHTML = "";
+  if(id === "match") missionMatch();
+  else if(id === "gap") missionGap();
+  else if(id === "build") missionBuild();
+  else if(id === "quiz") missionQuiz();
+  else if(id === "comic") missionComic();
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function goHome(){
+  screenWrap.classList.add("hidden");
+  screenWrap.innerHTML = "";
+  home.classList.remove("hidden");
+  drawHome();
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function shell(title, task){
+  var s = document.createElement("div"); s.className = "screen";
+  var head = document.createElement("div"); head.className = "screen-head";
+  var h = document.createElement("h2"); h.textContent = title;
+  var back = document.createElement("button"); back.className = "back"; back.type = "button";
+  back.textContent = "\u2190 Missions";
+  back.addEventListener("click", goHome);
+  head.appendChild(h); head.appendChild(back);
+  var p = document.createElement("p"); p.className = "task"; p.textContent = task;
+  s.appendChild(head); s.appendChild(p);
+  screenWrap.appendChild(s);
+  return s;
+}
+
+function shuffle(a){
+  for(var i=a.length-1;i>0;i--){
+    var j = Math.floor(Math.random()*(i+1));
+    var t=a[i]; a[i]=a[j]; a[j]=t;
+  }
+  return a;
+}
+
+function finish(s, id, scoreText){
+  s.innerHTML = "";
+  var r = document.createElement("div"); r.className = "result";
+  r.innerHTML = "<div class='big'>\u2605</div><h2 style='font-family:var(--display);margin:0 0 6px'>Mission complete</h2><p>" + scoreText + "</p>";
+  var again = document.createElement("button"); again.className = "btn ghost"; again.type="button";
+  again.textContent = "Play again";
+  again.style.marginRight = "10px";
+  again.addEventListener("click", function(){ open(id); });
+  var back = document.createElement("button"); back.className = "btn"; back.type="button";
+  back.textContent = "Back to missions";
+  back.addEventListener("click", goHome);
+  r.appendChild(again); r.appendChild(back);
+  s.appendChild(r);
+  done[id] = true; save();
+}
+
+/* ---------------- 1. MATCH ---------------- */
+
+function missionMatch(){
+  var s = shell("Word Match", "Click an English word, then click its meaning in Italian.");
+  var pairs = VOCAB.slice();
+  var en = shuffle(pairs.map(function(p,i){ return {t:p[0], i:i}; }));
+  var it = shuffle(pairs.map(function(p,i){ return {t:p[1], i:i}; }));
+
+  var bar = document.createElement("div"); bar.className="progress";
+  var barIn = document.createElement("span"); bar.appendChild(barIn); s.appendChild(bar);
+
+  var board = document.createElement("div"); board.className="board";
+  var cA = document.createElement("div"); cA.className="col";
+  var cB = document.createElement("div"); cB.className="col";
+  board.appendChild(cA); board.appendChild(cB); s.appendChild(board);
+
+  var fb = document.createElement("p"); fb.className="fb"; fb.style.marginTop="18px"; s.appendChild(fb);
+
+  var selA = null, selB = null, solved = 0, tries = 0;
+
+  function mk(item, col, side){
+    var c = document.createElement("div"); c.className="chip"; c.textContent=item.t;
+    c.dataset.idx = item.i;
+    c.addEventListener("click", function(){
+      if(c.classList.contains("ok")) return;
+      if(side==="a"){ if(selA) selA.classList.remove("sel"); selA=c; }
+      else { if(selB) selB.classList.remove("sel"); selB=c; }
+      c.classList.add("sel");
+      if(selA && selB) check();
+    });
+    col.appendChild(c);
+  }
+  en.forEach(function(x){ mk(x,cA,"a"); });
+  it.forEach(function(x){ mk(x,cB,"b"); });
+
+  function check(){
+    tries++;
+    var a=selA, b=selB;
+    if(a.dataset.idx === b.dataset.idx){
+      a.className="chip ok"; b.className="chip ok";
+      solved++;
+      barIn.style.width = (solved/pairs.length*100)+"%";
+      fb.className="fb win"; fb.textContent="Correct!";
+      if(solved===pairs.length){
+        setTimeout(function(){ finish(s,"match", solved+" pairs found in "+tries+" tries."); }, 650);
+      }
+    } else {
+      a.classList.add("no"); b.classList.add("no");
+      fb.className="fb lose"; fb.textContent="Try again.";
+      setTimeout(function(){
+        a.classList.remove("no","sel"); b.classList.remove("no","sel");
+      },330);
+    }
+    selA=null; selB=null;
+  }
+}
+
+/* ---------------- 2. GAP ---------------- */
+
+function missionGap(){
+  var s = shell("Fill the Gap", "Write the missing word. The word bank is right below.");
+  var items = shuffle(GAPS.slice());
+  var i = 0, score = 0;
+
+  var bar = document.createElement("div"); bar.className="progress";
+  var barIn = document.createElement("span"); bar.appendChild(barIn); s.appendChild(bar);
+
+  var bank = document.createElement("div"); bank.className="bank";
+  shuffle(VOCAB.map(function(v){return v[0];})).forEach(function(w){
+    var sp=document.createElement("span"); sp.textContent=w; bank.appendChild(sp);
+  });
+  s.appendChild(bank);
+
+  var box = document.createElement("div"); s.appendChild(box);
+  var actions = document.createElement("div"); actions.className="actions";
+  var btn = document.createElement("button"); btn.className="btn"; btn.type="button"; btn.textContent="Check";
+  var fb = document.createElement("span"); fb.className="fb";
+  actions.appendChild(btn); actions.appendChild(fb); s.appendChild(actions);
+
+  var input, checked=false;
+
+  function draw(){
+    checked=false; fb.textContent=""; fb.className="fb"; btn.textContent="Check";
+    barIn.style.width = (i/items.length*100)+"%";
+    box.innerHTML="";
+    var it = items[i];
+    var p = document.createElement("p"); p.className="prompt-it"; p.textContent = it.it;
+    var q = document.createElement("p"); q.className="q";
+    var parts = it.s.split("___");
+    q.appendChild(document.createTextNode(parts[0]));
+    input = document.createElement("input"); input.type="text"; input.autocomplete="off";
+    input.setAttribute("aria-label","missing word");
+    q.appendChild(input);
+    q.appendChild(document.createTextNode(parts[1]||""));
+    box.appendChild(p); box.appendChild(q);
+    input.focus();
+    input.addEventListener("keydown", function(e){ if(e.key==="Enter") btn.click(); });
+  }
+
+  btn.addEventListener("click", function(){
+    var it = items[i];
+    if(!checked){
+      var ok = input.value.trim().toLowerCase() === it.a.toLowerCase();
+      if(ok){ score++; fb.className="fb win"; fb.textContent="Correct!"; }
+      else { fb.className="fb lose"; fb.textContent="The word was: " + it.a; }
+      input.disabled = true;
+      checked = true;
+      btn.textContent = (i === items.length-1) ? "Finish" : "Next";
+    } else {
+      i++;
+      if(i >= items.length){ finish(s,"gap", score + " correct out of " + items.length + "."); }
+      else draw();
+    }
+  });
+
+  draw();
+}
+
+/* ---------------- 3. BUILD ---------------- */
+
+function missionBuild(){
+  var s = shell("Build a Sentence", "Read the Italian sentence, then click the English words in the right order.");
+  var items = shuffle(BUILD.slice());
+  var i = 0, score = 0;
+
+  var bar = document.createElement("div"); bar.className="progress";
+  var barIn = document.createElement("span"); bar.appendChild(barIn); s.appendChild(bar);
+
+  var box = document.createElement("div"); s.appendChild(box);
+  var actions = document.createElement("div"); actions.className="actions";
+  var btn = document.createElement("button"); btn.className="btn"; btn.type="button"; btn.textContent="Check";
+  var clr = document.createElement("button"); clr.className="btn ghost"; clr.type="button"; clr.textContent="Clear";
+  var fb = document.createElement("span"); fb.className="fb";
+  actions.appendChild(btn); actions.appendChild(clr); actions.appendChild(fb); s.appendChild(actions);
+
+  var slot, pool, checked=false, tokens=[];
+
+  function picked(){
+    return tokens.filter(function(t){ return t.inSlot; })
+                 .sort(function(a,b){ return a.order - b.order; })
+                 .map(function(t){ return t.word; });
+  }
+
+  var counter = 0;
+
+  function redraw(){
+    slot.innerHTML=""; pool.innerHTML="";
+    tokens.forEach(function(tk){
+      var el = document.createElement("span"); el.className="tok"; el.textContent=tk.word;
+      el.addEventListener("click", function(){
+        if(checked) return;
+        if(tk.inSlot){ tk.inSlot=false; tk.order=0; }
+        else { tk.inSlot=true; tk.order=++counter; }
+        redraw();
+      });
+      (tk.inSlot ? slot : pool).appendChild(el);
+    });
+    // keep slot order visually consistent
+    var inSlot = tokens.filter(function(t){return t.inSlot;}).sort(function(a,b){return a.order-b.order;});
+    slot.innerHTML="";
+    inSlot.forEach(function(tk){
+      var el = document.createElement("span"); el.className="tok"; el.textContent=tk.word;
+      el.addEventListener("click", function(){
+        if(checked) return;
+        tk.inSlot=false; tk.order=0; redraw();
+      });
+      slot.appendChild(el);
+    });
+  }
+
+  function draw(){
+    checked=false; fb.textContent=""; fb.className="fb"; btn.textContent="Check"; counter=0;
+    barIn.style.width = (i/items.length*100)+"%";
+    box.innerHTML="";
+    var it = items[i];
+    var p = document.createElement("p"); p.className="prompt-it"; p.textContent = it.it;
+    slot = document.createElement("div"); slot.className="slot";
+    pool = document.createElement("div"); pool.className="pool";
+    box.appendChild(p); box.appendChild(slot); box.appendChild(pool);
+    tokens = shuffle(it.w.slice()).map(function(w){
+      return { word:w, inSlot:false, order:0 };
+    });
+    redraw();
+  }
+
+  clr.addEventListener("click", function(){ if(!checked) draw(); });
+
+  btn.addEventListener("click", function(){
+    var it = items[i];
+    if(!checked){
+      var ok = picked().join(" ") === it.w.join(" ");
+      if(ok){ score++; fb.className="fb win"; fb.textContent="Perfect sentence!"; }
+      else { fb.className="fb lose"; fb.textContent="Correct: " + it.w.join(" "); }
+      checked = true;
+      btn.textContent = (i === items.length-1) ? "Finish" : "Next";
+    } else {
+      i++;
+      if(i >= items.length){ finish(s,"build", score + " correct out of " + items.length + "."); }
+      else draw();
+    }
+  });
+
+  draw();
+}
+
+/* ---------------- 4. QUIZ ---------------- */
+
+function missionQuiz(){
+  var s = shell("Robot Quiz", "Six questions about the band behind the song.");
+  var items = shuffle(QUIZ.slice());
+  var i = 0, score = 0;
+
+  var bar = document.createElement("div"); bar.className="progress";
+  var barIn = document.createElement("span"); bar.appendChild(barIn); s.appendChild(bar);
+
+  var box = document.createElement("div"); s.appendChild(box);
+  var actions = document.createElement("div"); actions.className="actions";
+  var btn = document.createElement("button"); btn.className="btn"; btn.type="button"; btn.textContent="Next";
+  btn.style.display="none";
+  var fb = document.createElement("span"); fb.className="fb";
+  actions.appendChild(btn); actions.appendChild(fb); s.appendChild(actions);
+
+  function draw(){
+    fb.textContent=""; fb.className="fb"; btn.style.display="none";
+    barIn.style.width = (i/items.length*100)+"%";
+    box.innerHTML="";
+    var it = items[i];
+    var q = document.createElement("p"); q.className="q"; q.style.fontSize="19px"; q.textContent = it.q;
+    var opts = document.createElement("div"); opts.className="opts";
+    box.appendChild(q); box.appendChild(opts);
+
+    it.o.forEach(function(text, idx){
+      var b = document.createElement("button"); b.className="opt"; b.type="button"; b.textContent=text;
+      b.addEventListener("click", function(){
+        Array.prototype.forEach.call(opts.children, function(c){ c.disabled = true; });
+        if(idx === it.c){
+          b.classList.add("ok"); score++;
+          fb.className="fb win"; fb.textContent="Correct!";
+        } else {
+          b.classList.add("no");
+          opts.children[it.c].classList.add("ok");
+          fb.className="fb lose"; fb.textContent="The answer was: " + it.o[it.c];
+        }
+        btn.style.display="inline-block";
+        btn.textContent = (i === items.length-1) ? "Finish" : "Next";
+      });
+      opts.appendChild(b);
+    });
+  }
+
+  btn.addEventListener("click", function(){
+    i++;
+    if(i >= items.length){ finish(s,"quiz", score + " correct out of " + items.length + "."); }
+    else draw();
+  });
+
+  draw();
+}
+
+/* ---------------- COMIC ART ---------------- */
+
+var INK = "#17130E";
+var uid = 0;
+
+function robot(x, y, s, c, pose, flip){
+  var arms = "";
+  if(pose === "stand"){
+    arms = '<path d="M-19,-52 L-31,-31"/><path d="M19,-52 L31,-31"/>'
+         + '<circle cx="-31" cy="-31" r="5.5" fill="'+c+'"/><circle cx="31" cy="-31" r="5.5" fill="'+c+'"/>';
+  } else if(pose === "wave"){
+    arms = '<path d="M-19,-52 L-31,-31"/><path d="M19,-54 L34,-74"/>'
+         + '<circle cx="-31" cy="-31" r="5.5" fill="'+c+'"/><circle cx="34" cy="-74" r="5.5" fill="'+c+'"/>';
+  } else if(pose === "up"){
+    arms = '<path d="M-19,-54 L-34,-76"/><path d="M19,-54 L34,-76"/>'
+         + '<circle cx="-34" cy="-76" r="5.5" fill="'+c+'"/><circle cx="34" cy="-76" r="5.5" fill="'+c+'"/>';
+  } else { /* side */
+    arms = '<path d="M-19,-50 L-37,-50"/><path d="M19,-54 L32,-75"/>'
+         + '<circle cx="-37" cy="-50" r="5.5" fill="'+c+'"/><circle cx="32" cy="-75" r="5.5" fill="'+c+'"/>';
+  }
+  var legs = (pose === "up" || pose === "side")
+    ? '<path d="M-9,-24 L-13,0"/><path d="M9,-24 L14,0"/>'
+    : '<path d="M-9,-24 L-9,0"/><path d="M9,-24 L9,0"/>';
+  return '<g transform="translate('+x+','+y+') scale('+(flip?-s:s)+','+s+')" '
+    + 'stroke="'+INK+'" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round" fill="none">'
+    + legs
+    + '<path d="M-17,0 L-3,0" stroke-width="7"/><path d="M3,0 L17,0" stroke-width="7"/>'
+    + arms
+    + '<rect x="-19" y="-58" width="38" height="36" rx="9" fill="'+c+'"/>'
+    + '<circle cx="0" cy="-40" r="6" fill="#F5E06B"/>'
+    + '<rect x="-4" y="-62" width="8" height="6" fill="'+c+'"/>'
+    + '<rect x="-17" y="-88" width="34" height="27" rx="8" fill="'+c+'"/>'
+    + '<path d="M0,-88 L0,-99"/><circle cx="0" cy="-102.5" r="4.5" fill="#E0654F"/>'
+    + '<rect x="-12" y="-82" width="24" height="13" rx="6" fill="'+INK+'"/>'
+    + '<circle cx="-5" cy="-75.5" r="2.7" fill="#5EEAD4" stroke="none"/>'
+    + '<circle cx="5" cy="-75.5" r="2.7" fill="#5EEAD4" stroke="none"/>'
+    + '</g>';
+}
+
+function star4(x, y, r, fill){
+  return '<path d="M'+x+','+(y-r)+' Q'+(x+r*0.22)+','+(y-r*0.22)+' '+(x+r)+','+y
+       + ' Q'+(x+r*0.22)+','+(y+r*0.22)+' '+x+','+(y+r)
+       + ' Q'+(x-r*0.22)+','+(y+r*0.22)+' '+(x-r)+','+y
+       + ' Q'+(x-r*0.22)+','+(y-r*0.22)+' '+x+','+(y-r)+' Z" fill="'+(fill||"#F5E06B")+'"/>';
+}
+
+function halftone(id, op){
+  return '<pattern id="'+id+'" width="7" height="7" patternUnits="userSpaceOnUse">'
+       + '<circle cx="3.5" cy="3.5" r="1.5" fill="rgba(0,0,0,'+(op||0.16)+')"/></pattern>';
+}
+
+var ART = {};
+
+ART.room = function(){
+  var h = "ht"+(++uid);
+  return '<defs>'+halftone(h,0.18)+'</defs>'
+    + '<rect width="320" height="240" fill="#1E2C4E"/>'
+    + '<rect width="320" height="240" fill="url(#'+h+')"/>'
+    + '<rect x="22" y="26" width="104" height="84" fill="#0A1230" stroke="'+INK+'" stroke-width="4"/>'
+    + star4(45,48,5) + star4(72,38,4) + star4(100,62,5) + star4(58,84,3.5) + star4(110,92,3.5)
+    + '<circle cx="104" cy="44" r="11" fill="#F5E06B" stroke="'+INK+'" stroke-width="3"/>'
+    + '<path d="M22,68 L126,68 M74,26 L74,110" stroke="'+INK+'" stroke-width="4"/>'
+    + '<rect y="186" width="320" height="54" fill="#30436E"/>'
+    + '<path d="M0,186 L320,186" stroke="'+INK+'" stroke-width="4"/>'
+    + '<rect x="146" y="124" width="154" height="44" rx="10" fill="#7A4430" stroke="'+INK+'" stroke-width="4"/>'
+    + robot(222, 188, 0.86, "#E0654F", "stand")
+    + '<rect x="146" y="158" width="154" height="34" rx="8" fill="#8B5138" stroke="'+INK+'" stroke-width="4"/>'
+    + '<rect x="142" y="140" width="24" height="52" rx="9" fill="#7A4430" stroke="'+INK+'" stroke-width="4"/>'
+    + '<rect x="280" y="140" width="24" height="52" rx="9" fill="#7A4430" stroke="'+INK+'" stroke-width="4"/>'
+    + '<rect x="142" y="124" width="162" height="68" fill="url(#'+h+')"/>';
+};
+
+ART.beep = function(){
+  var g = "bg"+(++uid), h = "ht"+(++uid);
+  var rays = "";
+  for(var i=0;i<18;i++){
+    var a = i*20*Math.PI/180;
+    rays += '<path d="M196,122 L'+(212+Math.cos(a)*190)+','+(112+Math.sin(a-0.07)*190)
+         +  ' L'+(212+Math.cos(a+0.14)*190)+','+(112+Math.sin(a+0.07)*190)+' Z" fill="#F5D45A"/>';
+  }
+  return '<defs>'+halftone(h,0.14)+'<radialGradient id="'+g+'"><stop offset="0%" stop-color="#3A2F6E"/><stop offset="100%" stop-color="#1D1742"/></radialGradient></defs>'
+    + '<rect width="320" height="240" fill="url(#'+g+')"/>'
+    + '<rect width="320" height="240" fill="url(#'+h+')"/>'
+    + rays
+    + '<rect y="196" width="320" height="44" fill="#2A2158"/>'
+    + '<path d="M0,196 L320,196" stroke="'+INK+'" stroke-width="4"/>'
+    + robot(150, 202, 0.95, "#E0654F", "side")
+    + '<g transform="translate(192,116) rotate(-16)">'
+    + '<rect x="-16" y="-24" width="32" height="48" rx="5" fill="#5EEAD4" stroke="'+INK+'" stroke-width="3.6"/>'
+    + '<rect x="-10" y="-17" width="20" height="28" fill="#FFFFFF" opacity="0.75"/>'
+    + '<circle cx="0" cy="18" r="3" fill="'+INK+'"/></g>';
+};
+
+ART.door = function(){
+  var h = "ht"+(++uid);
+  return '<defs>'+halftone(h,0.15)+'</defs>'
+    + '<rect width="320" height="240" fill="#4A3426"/>'
+    + '<rect width="320" height="240" fill="url(#'+h+')"/>'
+    + '<rect y="190" width="320" height="50" fill="#33241A"/>'
+    + '<path d="M0,190 L320,190" stroke="'+INK+'" stroke-width="4"/>'
+    + '<rect x="176" y="40" width="122" height="152" fill="#F5E06B" stroke="'+INK+'" stroke-width="5"/>'
+    + '<path d="M186,50 L288,50 M186,182 L288,182" stroke="'+INK+'" stroke-width="2.5" opacity="0.4"/>'
+    + star4(200,66,5,"#FFF5C2") + star4(276,84,4,"#FFF5C2")
+    + robot(240, 190, 0.86, "#4FA3E0", "wave")
+    + robot(96, 196, 0.94, "#E0654F", "stand");
+};
+
+ART.stars = function(){
+  var g = "sg"+(++uid), h = "ht"+(++uid);
+  var sky = "";
+  var pts = [[30,40,5],[64,72,3.5],[108,32,6],[150,60,4],[196,28,5],[240,66,3.5],[284,42,5],[16,96,3],[300,100,4],[128,92,3.5]];
+  pts.forEach(function(p){ sky += star4(p[0],p[1],p[2]); });
+  return '<defs>'+halftone(h,0.12)+'<linearGradient id="'+g+'" x1="0" y1="0" x2="0" y2="1">'
+    + '<stop offset="0%" stop-color="#101C46"/><stop offset="100%" stop-color="#36407E"/></linearGradient></defs>'
+    + '<rect width="320" height="240" fill="url(#'+g+')"/>' + sky
+    + '<path d="M264,30 a20,20 0 1,0 14,34 a16,16 0 1,1 -14,-34 Z" fill="#F5E06B" stroke="'+INK+'" stroke-width="3"/>'
+    + '<rect width="320" height="240" fill="url(#'+h+')"/>'
+    + '<path d="M0,182 Q80,158 160,180 Q240,200 320,176 L320,240 L0,240 Z" fill="#131E44" stroke="'+INK+'" stroke-width="4"/>'
+    + robot(112, 208, 0.82, "#E0654F", "stand")
+    + robot(200, 204, 0.82, "#4FA3E0", "side");
+};
+
+ART.floor = function(){
+  var h = "ht"+(++uid);
+  var beams = "";
+  var cols = ["#E0654F","#5EEAD4","#F5E06B","#C77DD6"];
+  for(var i=0;i<8;i++){
+    var x1 = 160 + (i-3.5)*34;
+    beams += '<path d="M160,-10 L'+(x1-46)+',210 L'+(x1+16)+',210 Z" fill="'+cols[i%4]+'" opacity="0.72"/>';
+  }
+  var tiles = "";
+  for(var r=0;r<3;r++) for(var c2=0;c2<8;c2++){
+    if((r+c2)%2===0) tiles += '<rect x="'+(c2*40)+'" y="'+(186+r*18)+'" width="40" height="18" fill="#59266E" opacity="0.7"/>';
+  }
+  return '<defs>'+halftone(h,0.16)+'</defs>'
+    + '<rect width="320" height="240" fill="#331350"/>'
+    + '<rect width="320" height="240" fill="url(#'+h+')"/>' + beams
+    + '<rect y="186" width="320" height="54" fill="#42186B"/>' + tiles
+    + '<path d="M0,186 L320,186" stroke="'+INK+'" stroke-width="4"/>'
+    + '<g transform="translate(28,132)"><rect x="-22" y="-46" width="44" height="100" rx="5" fill="#2B1140" stroke="'+INK+'" stroke-width="4"/>'
+    + '<circle cx="0" cy="-22" r="13" fill="#17130E" stroke="'+INK+'" stroke-width="3"/>'
+    + '<circle cx="0" cy="20" r="18" fill="#17130E" stroke="'+INK+'" stroke-width="3"/>'
+    + '<circle cx="0" cy="20" r="6" fill="#5EEAD4"/></g>'
+    + '<path d="M96,74 l0,-26 l18,-5 l0,26" stroke="#F5E06B" stroke-width="4" fill="none" stroke-linecap="round"/>'
+    + '<circle cx="92" cy="76" r="5.5" fill="#F5E06B"/><circle cx="110" cy="71" r="5.5" fill="#F5E06B"/>'
+    + robot(140, 202, 0.86, "#E0654F", "up")
+    + robot(226, 202, 0.86, "#4FA3E0", "side");
+};
+
+ART.sun = function(){
+  var g = "su"+(++uid), h = "ht"+(++uid);
+  var rays = "";
+  for(var i=0;i<12;i++){
+    var a = (i*30)*Math.PI/180;
+    rays += '<path d="M160,86 L'+(160+Math.cos(a)*150)+','+(86+Math.sin(a)*150)
+         +  ' L'+(160+Math.cos(a+0.2)*150)+','+(86+Math.sin(a+0.2)*150)+' Z" fill="#F7D97A" opacity="0.5"/>';
+  }
+  return '<defs>'+halftone(h,0.12)+'<linearGradient id="'+g+'" x1="0" y1="0" x2="0" y2="1">'
+    + '<stop offset="0%" stop-color="#F2A04B"/><stop offset="100%" stop-color="#F9E9B0"/></linearGradient></defs>'
+    + '<rect width="320" height="240" fill="url(#'+g+')"/>' + rays
+    + '<circle cx="160" cy="86" r="40" fill="#F5E06B" stroke="'+INK+'" stroke-width="4.5"/>'
+    + '<rect width="320" height="240" fill="url(#'+h+')"/>'
+    + '<path d="M0,184 Q90,166 170,184 Q250,200 320,182 L320,240 L0,240 Z" fill="#6E9A4E" stroke="'+INK+'" stroke-width="4"/>'
+    + robot(112, 208, 0.84, "#E0654F", "up")
+    + robot(204, 206, 0.84, "#4FA3E0", "wave");
+};
+
+/* ---------------- 5. COMIC STUDIO ---------------- */
+
+function missionComic(){
+  var s = shell("Comic Studio",
+    "Two steps. First rebuild the story, then finish the words in the balloons.");
+
+  var order = shuffle(COMIC.map(function(_, i){ return i; }));
+  if(order.every(function(v, i){ return v === i; })) order.push(order.shift());
+
+  var fills = {};
+  var inputs = [];
+  var focused = null;
+  var refreshBank = function(){};
+
+  var body = document.createElement("div");
+  s.appendChild(body);
+
+  function panelEl(dataIdx, opts){
+    var p = COMIC[dataIdx];
+    var d = document.createElement("div");
+    d.className = "pnl" + (opts.pick ? " pick" : "");
+    d.innerHTML = '<svg viewBox="0 0 320 240" preserveAspectRatio="xMidYMid slice" aria-hidden="true">'
+                + ART[p.art]() + '</svg>';
+
+    if(opts.num){
+      var n = document.createElement("span"); n.className = "pnum"; n.textContent = opts.num;
+      d.appendChild(n);
+    }
+    if(p.cap){
+      var c = document.createElement("div"); c.className = "cap"; c.style.cssText = p.cap.pos;
+      fillText(c, p.cap.t, p.cap.gap, dataIdx + "c", opts);
+      d.appendChild(c);
+    }
+    if(p.sfx){
+      var f = document.createElement("div"); f.className = "sfx"; f.style.cssText = p.sfx.pos;
+      f.textContent = p.sfx.t; d.appendChild(f);
+    }
+    (p.bals || []).forEach(function(b, bi){
+      var e = document.createElement("div");
+      e.className = "bal" + (b.kind === "think" ? " think" : "");
+      e.style.cssText = b.pos;
+      fillText(e, b.t, b.gap, dataIdx + "b" + bi, opts);
+      d.appendChild(e);
+    });
+    return d;
+  }
+
+  function fillText(host, text, gap, key, opts){
+    if(!gap){ host.textContent = text; return; }
+    var parts = text.split("___");
+    host.appendChild(document.createTextNode(parts[0]));
+    var g;
+    if(opts.gaps){
+      g = document.createElement("input");
+      g.type = "text"; g.className = "bgap";
+      g.autocomplete = "off"; g.spellcheck = false;
+      g.value = fills[key] || "";
+      g.setAttribute("aria-label", "missing word");
+      g.addEventListener("focus", function(){ focused = g; });
+      g.addEventListener("click", function(ev){ ev.stopPropagation(); });
+      g.addEventListener("input", function(){
+        var v = g.value.trim();
+        if(v) fills[key] = v; else delete fills[key];
+        g.classList.remove("ok", "no");
+        refreshBank();
+      });
+      inputs.push(g);
+    } else {
+      g = document.createElement("span");
+      g.className = "bgap static";
+      g.textContent = "_____";
+    }
+    g.dataset.key = key;
+    g.dataset.answer = gap;
+    host.appendChild(g);
+    host.appendChild(document.createTextNode(parts[1] || ""));
+  }
+
+  /* ---- STEP 1: order ---- */
+  function drawOrder(){
+    body.innerHTML = "";
+    var step = document.createElement("div"); step.className = "comic-step";
+    step.textContent = "Step 1 \u2014 Put the story in order";
+    body.appendChild(step);
+
+    var paper = document.createElement("div"); paper.className = "paper";
+    var grid = document.createElement("div"); grid.className = "comic-grid";
+    paper.appendChild(grid); body.appendChild(paper);
+
+    var sel = null;
+    order.forEach(function(dataIdx, pos){
+      var el = panelEl(dataIdx, { pick:true, num:pos+1, gaps:false });
+      el.addEventListener("click", function(){
+        if(sel === null){ sel = pos; el.classList.add("sel"); return; }
+        if(sel === pos){ sel = null; el.classList.remove("sel"); return; }
+        var t = order[sel]; order[sel] = order[pos]; order[pos] = t;
+        sel = null; drawOrder();
+      });
+      grid.appendChild(el);
+    });
+
+    var act = document.createElement("div"); act.className = "actions";
+    var check = document.createElement("button"); check.className = "btn"; check.type = "button";
+    check.textContent = "Check the order";
+    var help = document.createElement("button"); help.className = "btn ghost"; help.type = "button";
+    help.textContent = "Show me";
+    var fb = document.createElement("span"); fb.className = "fb";
+    act.appendChild(check); act.appendChild(help); act.appendChild(fb);
+    body.appendChild(act);
+
+    check.addEventListener("click", function(){
+      var right = order.filter(function(v, i){ return v === i; }).length;
+      if(right === order.length){
+        fb.className = "fb win"; fb.textContent = "That is the story!";
+        setTimeout(drawFill, 750);
+      } else {
+        fb.className = "fb lose";
+        fb.textContent = right + " of " + order.length + " panels are in the right place.";
+      }
+    });
+    help.addEventListener("click", function(){
+      order = COMIC.map(function(_, i){ return i; });
+      drawOrder();
+    });
+  }
+
+  /* ---- STEP 2: balloons ---- */
+  function drawFill(){
+    body.innerHTML = "";
+    inputs = []; focused = null;
+
+    var step = document.createElement("div"); step.className = "comic-step";
+    step.textContent = "Step 2 \u2014 Finish the balloons";
+    body.appendChild(step);
+
+    var paper = document.createElement("div"); paper.className = "paper";
+    var grid = document.createElement("div"); grid.className = "comic-grid";
+    paper.appendChild(grid); body.appendChild(paper);
+
+    COMIC.forEach(function(_, i){
+      grid.appendChild(panelEl(i, { pick:false, gaps:true }));
+    });
+
+    var hint = document.createElement("p"); hint.className = "bankhint";
+    hint.textContent = "Write the missing word in the balloon \u2014 or tap a word here";
+    paper.appendChild(hint);
+
+    var bank = document.createElement("div"); bank.className = "wordbank";
+    var chips = [];
+    shuffle(COMIC_WORDS.slice()).forEach(function(w){
+      var c = document.createElement("button"); c.type = "button";
+      c.className = "wchip"; c.textContent = w; c.dataset.word = w;
+      c.addEventListener("click", function(){
+        var placed = inputs.filter(function(x){
+          return x.value.trim().toLowerCase() === w;
+        })[0];
+        if(placed){
+          placed.value = ""; delete fills[placed.dataset.key];
+          placed.classList.remove("ok", "no");
+          refreshBank(); return;
+        }
+        var target = (focused && inputs.indexOf(focused) > -1)
+          ? focused
+          : inputs.filter(function(x){ return !x.value.trim(); })[0];
+        if(!target) return;
+        target.value = w;
+        fills[target.dataset.key] = w;
+        target.classList.remove("ok", "no");
+        try{ target.focus(); }catch(e){}
+        refreshBank();
+      });
+      chips.push(c); bank.appendChild(c);
+    });
+    paper.appendChild(bank);
+
+    refreshBank = function(){
+      var placed = inputs.map(function(x){ return x.value.trim().toLowerCase(); });
+      chips.forEach(function(c){
+        c.classList.toggle("used", placed.indexOf(c.dataset.word) > -1);
+      });
+    };
+    refreshBank();
+
+    var act = document.createElement("div"); act.className = "actions";
+    var check = document.createElement("button"); check.className = "btn"; check.type = "button";
+    check.textContent = "Check the words";
+    var clear = document.createElement("button"); clear.className = "btn ghost"; clear.type = "button";
+    clear.textContent = "Clear all";
+    var fb = document.createElement("span"); fb.className = "fb";
+    act.appendChild(check); act.appendChild(clear); act.appendChild(fb);
+    body.appendChild(act);
+
+    clear.addEventListener("click", function(){
+      inputs.forEach(function(g){
+        g.value = ""; delete fills[g.dataset.key]; g.classList.remove("ok", "no");
+      });
+      fb.textContent = ""; fb.className = "fb";
+      refreshBank();
+    });
+
+    check.addEventListener("click", function(){
+      var right = 0;
+      inputs.forEach(function(g){
+        var ok = g.value.trim().toLowerCase() === String(g.dataset.answer).toLowerCase();
+        g.classList.remove("ok", "no");
+        g.classList.add(ok ? "ok" : "no");
+        if(ok) right++;
+      });
+      if(right === inputs.length){
+        fb.className = "fb win"; fb.textContent = "The comic is finished!";
+        setTimeout(function(){
+          finish(s, "comic", "Story rebuilt and all " + inputs.length + " balloons filled.");
+        }, 1100);
+      } else {
+        fb.className = "fb lose";
+        fb.textContent = right + " of " + inputs.length + " words are correct.";
+      }
+    });
+  }
+
+  drawOrder();
+}
+
+drawHome();
+})();
+</script>
+</body>
+</html>
